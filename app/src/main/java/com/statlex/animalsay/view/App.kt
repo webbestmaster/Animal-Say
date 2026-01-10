@@ -15,6 +15,7 @@ import com.statlex.animalsay.ui.theme.AnimalSayTheme
 import com.statlex.animalsay.view.component.Header
 import com.statlex.animalsay.view.page.Index
 import com.statlex.animalsay.view.page.Settings
+import com.statlex.animalsay.view.page.continent.ContinentAsia
 
 @Composable
 fun App() {
@@ -40,6 +41,11 @@ fun App() {
                     composable(Route.Settings.route) {
                         Settings()
                     }
+
+                    composable(Route.ContinentAsia.route) {
+                        ContinentAsia()
+                    }
+
                 }
             }
         }
