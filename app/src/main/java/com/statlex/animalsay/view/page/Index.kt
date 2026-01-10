@@ -13,14 +13,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.statlex.animalsay.view.LocalNavController
 import com.statlex.animalsay.view.Route
 
-@Preview(showBackground = true)
 @Composable
 fun Index() {
     val TAG = "Index"
+
+    val navHostController = LocalNavController.current
 
     val buttonStyle = Modifier
         .padding(4.dp)
@@ -40,7 +41,7 @@ fun Index() {
             Text("Africa", modifier = buttonTextStyle)
         }
         Button(onClick = {
-//            navHostController.navigate(Route.Settings.route)
+            navHostController.navigate(Route.ContinentAsia.route)
         }, modifier = buttonStyle) {
             Text("Asia", modifier = buttonTextStyle)
         }
