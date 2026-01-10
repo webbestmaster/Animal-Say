@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -16,6 +19,10 @@ import com.statlex.animalsay.view.component.Header
 import com.statlex.animalsay.view.page.Index
 import com.statlex.animalsay.view.page.Settings
 import com.statlex.animalsay.view.page.continent.ContinentAsia
+
+val LocalNavController = staticCompositionLocalOf<NavHostController> {
+    error("NavHostController not provided")
+}
 
 @Composable
 fun App() {
@@ -29,23 +36,26 @@ fun App() {
             ) {
                 val navController = rememberNavController()
 
-                Header(navHostController = navController)
-
-                NavHost(
-                    navController = navController, startDestination = Route.Index.route
+                CompositionLocalProvider(
+                    LocalNavController provides navController
                 ) {
-                    composable(Route.Index.route) {
-                        Index()
-                    }
+                    Header()
 
-                    composable(Route.Settings.route) {
-                        Settings()
-                    }
+                    NavHost(
+                        navController = navController, startDestination = Route.Index.route
+                    ) {
+                        composable(Route.Index.route) {
+                            Index()
+                        }
 
-                    composable(Route.ContinentAsia.route) {
-                        ContinentAsia()
-                    }
+                        composable(Route.Settings.route) {
+                            Settings()
+                        }
 
+                        composable(Route.ContinentAsia.route) {
+                            ContinentAsia()
+                        }
+                    }
                 }
             }
         }

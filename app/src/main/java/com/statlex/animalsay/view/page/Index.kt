@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.statlex.animalsay.view.Route
 
 @Preview(showBackground = true)
 @Composable
@@ -38,7 +39,9 @@ fun Index() {
         Button(onClick = {}, modifier = buttonStyle) {
             Text("Africa", modifier = buttonTextStyle)
         }
-        Button(onClick = {}, modifier = buttonStyle) {
+        Button(onClick = {
+//            navHostController.navigate(Route.Settings.route)
+        }, modifier = buttonStyle) {
             Text("Asia", modifier = buttonTextStyle)
         }
         Button(onClick = {}, modifier = buttonStyle) {

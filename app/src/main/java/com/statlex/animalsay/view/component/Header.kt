@@ -22,20 +22,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.statlex.animalsay.view.LocalNavController
 import com.statlex.animalsay.view.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Header(navHostController: NavHostController) {
+fun Header() {
     val TAG = "Header"
 
+    val navHostController = LocalNavController.current
     val backStackEntry by navHostController.currentBackStackEntryAsState()
-
     val currentRoute = backStackEntry?.destination?.route
-
-    Log.d(TAG, "Header: $currentRoute")
-
     val isShowSettingsButton = currentRoute != Route.Settings.route;
+    val isShowBackButton = currentRoute != Route.Index.route;
 
     Row(
         modifier = Modifier
@@ -44,9 +43,8 @@ fun Header(navHostController: NavHostController) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        IconButton(onClick = {
-            navHostController.popBackStack()
-        }) {
+        IconButton(
+            enabled = isShowBackButton, onClick = { navHostController.popBackStack() }) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back"
             )
@@ -57,17 +55,10 @@ fun Header(navHostController: NavHostController) {
 
         IconButton(
             enabled = isShowSettingsButton,
-            onClick = { navHostController.navigate(Route.Settings.route) }
-        ) {
+            onClick = { navHostController.navigate(Route.Settings.route) }) {
             Icon(
                 imageVector = Icons.Filled.Settings, contentDescription = "Settings"
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    Header(navHostController = rememberNavController())
 }
