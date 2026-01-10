@@ -5,5 +5,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun Settings () {
+    val TAG = "Settings"
+
     Text("Settings")
 }

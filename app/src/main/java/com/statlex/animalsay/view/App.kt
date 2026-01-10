@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.statlex.animalsay.ui.theme.AnimalSayTheme
 import com.statlex.animalsay.view.component.Header
 import com.statlex.animalsay.view.page.Index
+import com.statlex.animalsay.view.page.Settings
 
 @Composable
 fun App() {
@@ -34,17 +35,11 @@ fun App() {
                     navController = navController, startDestination = Route.Index.route
                 ) {
                     composable(Route.Index.route) {
-                        Column {
-                            Text("test")
-                            Index()
-                        }
+                        Index()
                     }
 
                     composable(Route.Settings.route) {
-                        Column {
-                            Text("Settings")
-//                            Index()
-                        }
+                        Settings()
                     }
                 }
             }
