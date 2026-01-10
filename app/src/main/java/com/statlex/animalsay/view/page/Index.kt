@@ -1,9 +1,8 @@
-package com.statlex.animalsay
+package com.statlex.animalsay.view.page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,12 +11,13 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview(showBackground = true)
 @Composable
-fun IndexView() {
+fun Index() {
+    val TAG = "Index"
+
     Column(
         modifier = Modifier
-            .fillMaxSize(0.5f)
-            .background(Color(0xFF00CC00))
-
+            .fillMaxSize()
+            .background(Color(0xFF676767)),
     ) {
         Text("some text")
     }
