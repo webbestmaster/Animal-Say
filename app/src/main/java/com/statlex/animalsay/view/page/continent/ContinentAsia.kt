@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.statlex.animalsay.R
 import com.statlex.animalsay.view.component.ImageSlider
 
 @Composable
@@ -15,11 +14,10 @@ fun ContinentAsia() {
 
         ImageSlider(
             images = listOf(
-                R.drawable.number_1,
-                R.drawable.number_2,
-                R.drawable.number_3,
+                "images/number-3.png",
+                "images/number-3.png",
+                "images/number-3.png",
             )
         )
     }
-
 }
