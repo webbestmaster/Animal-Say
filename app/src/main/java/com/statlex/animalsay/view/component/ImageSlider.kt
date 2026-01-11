@@ -1,5 +1,6 @@
 package com.statlex.animalsay.view.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +9,11 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -21,10 +27,32 @@ import androidx.compose.ui.unit.dp
 fun ImageSlider(
     images: List<String>,
 ) {
+    val TAG = "ImageSlider";
+
     val pagerState = rememberPagerState(pageCount = { images.size })
 
     val matrix = ColorMatrix().apply {
         setToSaturation(0.5f)
+    }
+
+    var lastPage by remember { mutableStateOf(-1) }
+
+    LaunchedEffect(pagerState.currentPage) {
+        if (pagerState.currentPage != lastPage) {
+            Log.d(TAG, "ImageSlider: ${pagerState.currentPage}")
+
+            /*
+                        soundPool.play(
+                            soundId,
+                            1f, // left volume
+                            1f, // right volume
+                            1,
+                            0,
+                            1f
+                        )
+            */
+            lastPage = pagerState.currentPage
+        }
     }
 
     HorizontalPager(
