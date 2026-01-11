@@ -22,12 +22,20 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.statlex.animalsay.R
+import com.statlex.animalsay.card.animalCardDataList
+import com.statlex.animalsay.helper.rememberSoundPool
 
 @Composable
 fun ImageSlider(
     images: List<String>,
 ) {
     val TAG = "ImageSlider";
+
+
+    Log.d(TAG, "ImageSlider: ${animalCardDataList}")
+    
+    val (soundPool, soundId) = rememberSoundPool(R.raw.dark_engine_logo_141942)
 
     val pagerState = rememberPagerState(pageCount = { images.size })
 
@@ -41,16 +49,16 @@ fun ImageSlider(
         if (pagerState.currentPage != lastPage) {
             Log.d(TAG, "ImageSlider: ${pagerState.currentPage}")
 
-            /*
-                        soundPool.play(
-                            soundId,
-                            1f, // left volume
-                            1f, // right volume
-                            1,
-                            0,
-                            1f
-                        )
-            */
+            soundPool.setOnLoadCompleteListener { _, _, status ->
+                if (status == 0) {
+                    soundPool.play(
+                        soundId, 1f, // left volume
+                        1f, // right volume
+                        1, 0, 1f
+                    )
+                }
+            }
+
             lastPage = pagerState.currentPage
         }
     }
