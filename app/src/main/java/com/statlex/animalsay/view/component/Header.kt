@@ -16,8 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.statlex.animalsay.R
 import com.statlex.animalsay.view.LocalNavController
 import com.statlex.animalsay.view.Route
 
@@ -46,7 +48,7 @@ fun Header() {
             )
         }
         Text(
-            "Header", fontSize = 24.sp
+            stringResource(R.string.app_name), fontSize = 24.sp
         )
 
         IconButton(
