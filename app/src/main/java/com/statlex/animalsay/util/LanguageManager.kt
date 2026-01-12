@@ -9,26 +9,56 @@ import kotlinx.coroutines.runBlocking
 
 import android.content.res.Configuration
 import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 val TAG = "LanguageManager"
 
-private val supportedLanguages = listOf("en", "ru", "sv")
+val supportedLanguages = listOf("en", "ru", "sv")
 
 private val Context.dataStore by preferencesDataStore(name = "settings_language_name")
 
 private val LANGUAGE_KEY = stringPreferencesKey("language_name_1")
 
-private suspend fun saveLanguage(context: Context, language: String) {
+fun Context.updateLocale(language: String): Context {
+    val locale = Locale.forLanguageTag(language)
+    Locale.setDefault(locale)
+
+    val config = Configuration(resources.configuration)
+    config.setLocale(locale)
+
+    return createConfigurationContext(config)
+}
+
+/*
+fun setNewLocale(language: String) {
+    // обновляем DataStore
+    CoroutineScope(Dispatchers.IO).launch {
+        changeLanguage(this@MainActivity, language)
+    }
+
+    // пересоздаём Activity для применения локали
+    val ctx = updateLocale(language)
+    applyOverrideConfiguration(ctx.resources.configuration)
+
+    recreate() // пересоздаёт UI
+}
+*/
+
+suspend fun saveLanguage2(context: Context, language: String) {
     context.dataStore.edit {
         it[LANGUAGE_KEY] = language
     }
 }
 
-private fun getSavedLanguageOrNull(context: Context): String? {
+fun getSavedLanguageOrNull(context: Context): String? {
     return runBlocking {
         context.dataStore.data.first()[LANGUAGE_KEY]
     }
@@ -46,6 +76,21 @@ private fun chooseSupportedLanguage(
     } else {
         supportedLanguages.first()
     }
+}
+
+
+@Composable
+fun rememberAppLanguage(context: Context): State<String>  {
+    val languageFlow = context.getLanguageFlow()
+    return languageFlow.collectAsState(initial = "en")
+}
+
+fun Context.getLanguageFlow(): Flow<String> =
+    dataStore.data.map { it[LANGUAGE_KEY] ?: "en" }
+
+
+suspend fun Context.saveLanguage(language: String) {
+    dataStore.edit { it[LANGUAGE_KEY] = language }
 }
 
 fun applyLanguage(context: Context, language: String): Context {
@@ -72,7 +117,7 @@ fun initAppLanguage(context: Context): Context {
         chooseSupportedLanguage(deviceLanguage).also {
             runBlocking {
 //            CoroutineScope(Dispatchers.IO).launch {
-                saveLanguage(context, it)
+                saveLanguage2(context, it)
             }
         }
     }
