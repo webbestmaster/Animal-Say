@@ -8,12 +8,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.intl.Locale
-import com.statlex.animalsay.SetRuNewLocale
+//import com.statlex.animalsay.SetRuNewLocale
 import com.statlex.animalsay.util.applyLanguage
 import com.statlex.animalsay.util.rememberAppLanguage
 import com.statlex.animalsay.util.saveLanguage
-import com.statlex.animalsay.util.updateLocale
+//import com.statlex.animalsay.util.saveLanguage
+//import com.statlex.animalsay.util.saveLanguage
+//import com.statlex.animalsay.util.updateLocale
 import com.statlex.animalsay.view.component.Header
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -62,6 +63,9 @@ fun Settings() {
             }
 
             Button(onClick = {
+                CoroutineScope(Dispatchers.IO).launch {
+                    context.saveLanguage("en")
+                }
 //            applyLanguage(context, "en")
 //            context.updateLocale("en")
             }) {

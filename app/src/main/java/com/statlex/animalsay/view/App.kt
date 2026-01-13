@@ -22,14 +22,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.statlex.animalsay.ui.theme.AnimalSayTheme
-import com.statlex.animalsay.util.getSavedLanguageOrNull
+//import com.statlex.animalsay.util.getSavedLanguageOrNull
 import com.statlex.animalsay.util.supportedLanguages
 import com.statlex.animalsay.view.component.Header
 import com.statlex.animalsay.view.page.Index
 import com.statlex.animalsay.view.page.Settings
 import com.statlex.animalsay.view.page.continent.ContinentAsia
 import androidx.activity.compose.setContent
-import com.statlex.animalsay.util.updateLocale
+//import com.statlex.animalsay.util.updateLocale
 
 
 /*

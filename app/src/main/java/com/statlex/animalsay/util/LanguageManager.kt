@@ -12,11 +12,8 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 val TAG = "LanguageManager"
@@ -26,6 +23,7 @@ val supportedLanguages = listOf("en", "ru", "sv")
 private val Context.dataStore by preferencesDataStore(name = "settings_language_name")
 
 private val LANGUAGE_KEY = stringPreferencesKey("language_name_1")
+/*
 
 fun Context.updateLocale(language: String): Context {
     val locale = Locale.forLanguageTag(language)
@@ -36,6 +34,7 @@ fun Context.updateLocale(language: String): Context {
 
     return createConfigurationContext(config)
 }
+*/
 
 /*
 fun setNewLocale(language: String) {
@@ -52,13 +51,13 @@ fun setNewLocale(language: String) {
 }
 */
 
-suspend fun saveLanguage2(context: Context, language: String) {
+private suspend fun saveLanguageInner(context: Context, language: String) {
     context.dataStore.edit {
         it[LANGUAGE_KEY] = language
     }
 }
 
-fun getSavedLanguageOrNull(context: Context): String? {
+private fun getSavedLanguageOrNull(context: Context): String? {
     return runBlocking {
         context.dataStore.data.first()[LANGUAGE_KEY]
     }
@@ -85,7 +84,7 @@ fun rememberAppLanguage(context: Context): State<String>  {
     return languageFlow.collectAsState(initial = "en")
 }
 
-fun Context.getLanguageFlow(): Flow<String> =
+private fun Context.getLanguageFlow(): Flow<String> =
     dataStore.data.map { it[LANGUAGE_KEY] ?: "en" }
 
 
@@ -117,7 +116,7 @@ fun initAppLanguage(context: Context): Context {
         chooseSupportedLanguage(deviceLanguage).also {
             runBlocking {
 //            CoroutineScope(Dispatchers.IO).launch {
-                saveLanguage2(context, it)
+                saveLanguageInner(context, it)
             }
         }
     }
