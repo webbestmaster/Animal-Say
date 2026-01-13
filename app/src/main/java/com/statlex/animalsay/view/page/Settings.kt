@@ -20,10 +20,7 @@ fun Settings() {
 
     val context = LocalContext.current
 
-    val language by rememberAppLanguage(context)
-
-    LocalizedContent(language = language) {
-
+    LocalizedContent {
         Column {
             Text("Settings")
 

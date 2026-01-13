@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.core.edit
@@ -82,8 +83,9 @@ fun rememberAppLanguage(context: Context): State<String> {
 }
 
 @Composable
-fun LocalizedContent(language: String, content: @Composable () -> Unit) {
+fun LocalizedContent(content: @Composable () -> Unit) {
     val context = LocalContext.current
+    val language by rememberAppLanguage(context)
     val localizedContext = remember(language) { applyLanguage(context, language) }
 
     CompositionLocalProvider(LocalContext provides localizedContext) {
