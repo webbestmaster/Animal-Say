@@ -10,10 +10,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -23,11 +20,10 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.statlex.animalsay.R
 import com.statlex.animalsay.card.AnimalCard
 import com.statlex.animalsay.card.animalCardDataList
-import com.statlex.animalsay.helper.rememberSoundPool
-import com.statlex.animalsay.util.playShortSound
+import com.statlex.animalsay.util.playSoundAndWait
+import kotlinx.coroutines.launch
 
 @Composable
 fun ImageSlider(
@@ -37,9 +33,9 @@ fun ImageSlider(
 
     val context = LocalContext.current
 
-    Log.d(TAG, "ImageSlider: ${animalCardDataList}")
+    val scope = rememberCoroutineScope()
 
-//    val (soundPool, soundId) = rememberSoundPool(R.raw.dark_engine_logo_141942)
+    Log.d(TAG, "ImageSlider: ${animalCardDataList}")
 
     val pagerState = rememberPagerState(pageCount = { cardList.size })
     val currentPage = pagerState.currentPage;
@@ -48,32 +44,20 @@ fun ImageSlider(
         setToSaturation(0.5f)
     }
 
-//    var lastPage by remember { mutableStateOf(currentPage) }
-
     LaunchedEffect(currentPage) {
-//        if (currentPage != lastPage && currentPage >= 0) {
-        val card = cardList[currentPage];
-
+        val card = cardList[currentPage]
         val pathPrefix = "animal-card/${card.nameId}/"
 
-        playShortSound(context = context, assetPath = "${pathPrefix}name/${card.nameId}-en.mp3")
+        scope.launch {
+            playSoundAndWait(
+                context = context, assetPath = "${pathPrefix}name/${card.nameId}-en.mp3"
+            )
+            playSoundAndWait(
+                context = context, assetPath = "${pathPrefix}voice/${card.nameId}-1.mp3"
+            )
+        }
 
         Log.d(TAG, "ImageSlider, currentPage: ${currentPage}")
-
-        /*
-                    soundPool.setOnLoadCompleteListener { _, _, status ->
-                        if (status == 0) {
-                            soundPool.play(
-                                soundId, 1f, // left volume
-                                1f, // right volume
-                                1, 0, 1f
-                            )
-                        }
-                    }
-        */
-
-//            lastPage = currentPage
-//        }
     }
 
     HorizontalPager(

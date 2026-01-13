@@ -1,9 +1,6 @@
 package com.statlex.animalsay
 
-//import com.statlex.animalsay.util.applyLanguage
-//import com.statlex.animalsay.util.getSavedLanguageOrNull
-//import com.statlex.animalsay.util.initAppLanguage
-//import com.statlex.animalsay.util.updateLocale
+import android.media.AudioManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,6 +20,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val context = this
+
+        // fix volume buttons
+        volumeControlStream = AudioManager.STREAM_MUSIC
 
         initAppLanguage(context)
 

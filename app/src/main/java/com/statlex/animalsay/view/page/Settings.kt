@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import com.statlex.animalsay.util.LocalizedContent
 import com.statlex.animalsay.util.rememberAppLanguage
 import com.statlex.animalsay.util.saveLanguage
 import kotlinx.coroutines.CoroutineScope
