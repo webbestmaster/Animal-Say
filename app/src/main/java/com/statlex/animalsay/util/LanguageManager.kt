@@ -18,12 +18,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
-import kotlin.collections.get
 
 private val TAG = "LanguageManager"
 private val supportedLanguages = listOf("en", "ru")
-private val Context.dataStore by preferencesDataStore(name = "settings_language")
-private val LANGUAGE_KEY = stringPreferencesKey(name = "language_name")
+private val Context.dataStoreSettingsLanguage by preferencesDataStore(name = "settings-language")
+private val LANGUAGE_KEY = stringPreferencesKey(name = "language-name")
 
 fun initAppLanguage(context: Context): Context {
     val savedLanguage = getSavedLanguageOrNull(context)
@@ -62,11 +61,11 @@ fun LocalizedContent(content: @Composable () -> Unit) {
 }
 
 suspend fun Context.saveLanguage(language: String) {
-    dataStore.edit { it[LANGUAGE_KEY] = language }
+    dataStoreSettingsLanguage.edit { it[LANGUAGE_KEY] = language }
 }
 
 private fun Context.getLanguageFlow(): Flow<String> {
-    return dataStore.data.map { it[LANGUAGE_KEY] ?: supportedLanguages.first() }
+    return dataStoreSettingsLanguage.data.map { it[LANGUAGE_KEY] ?: supportedLanguages.first() }
 }
 
 private fun applyLanguage(context: Context, language: String): Context {
@@ -82,7 +81,7 @@ private fun applyLanguage(context: Context, language: String): Context {
 
 private fun getSavedLanguageOrNull(context: Context): String? {
     return runBlocking {
-        context.dataStore.data.first()[LANGUAGE_KEY]
+        context.dataStoreSettingsLanguage.data.first()[LANGUAGE_KEY]
     }
 }
 
