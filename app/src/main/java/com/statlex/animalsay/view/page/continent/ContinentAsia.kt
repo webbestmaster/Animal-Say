@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.statlex.animalsay.card.animalCardDataList
 import com.statlex.animalsay.view.component.ImageSlider
 
 @Composable
@@ -13,10 +14,10 @@ fun ContinentAsia() {
         Text("Asia")
 
         ImageSlider(
-            images = listOf(
-                "images/number-3.png",
-                "images/number-3.png",
-                "images/number-3.png",
+            cardList = listOf(
+                animalCardDataList[0],
+                animalCardDataList[1],
+                animalCardDataList[2],
             )
         )
     }

@@ -21,58 +21,75 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.statlex.animalsay.R
+import com.statlex.animalsay.card.AnimalCard
 import com.statlex.animalsay.card.animalCardDataList
 import com.statlex.animalsay.helper.rememberSoundPool
+import com.statlex.animalsay.util.playShortSound
 
 @Composable
 fun ImageSlider(
-    images: List<String>,
+    cardList: List<AnimalCard>,
 ) {
     val TAG = "ImageSlider";
 
+    val context = LocalContext.current
 
     Log.d(TAG, "ImageSlider: ${animalCardDataList}")
-    
-    val (soundPool, soundId) = rememberSoundPool(R.raw.dark_engine_logo_141942)
 
-    val pagerState = rememberPagerState(pageCount = { images.size })
+//    val (soundPool, soundId) = rememberSoundPool(R.raw.dark_engine_logo_141942)
+
+    val pagerState = rememberPagerState(pageCount = { cardList.size })
+    val currentPage = pagerState.currentPage;
 
     val matrix = ColorMatrix().apply {
         setToSaturation(0.5f)
     }
 
-    var lastPage by remember { mutableStateOf(-1) }
+//    var lastPage by remember { mutableStateOf(currentPage) }
 
-    LaunchedEffect(pagerState.currentPage) {
-        if (pagerState.currentPage != lastPage) {
-            Log.d(TAG, "ImageSlider: ${pagerState.currentPage}")
+    LaunchedEffect(currentPage) {
+//        if (currentPage != lastPage && currentPage >= 0) {
+        val card = cardList[currentPage];
 
-            soundPool.setOnLoadCompleteListener { _, _, status ->
-                if (status == 0) {
-                    soundPool.play(
-                        soundId, 1f, // left volume
-                        1f, // right volume
-                        1, 0, 1f
-                    )
-                }
-            }
+        val pathPrefix = "animal-card/${card.nameId}/"
 
-            lastPage = pagerState.currentPage
-        }
+        playShortSound(context = context, assetPath = "${pathPrefix}name/${card.nameId}-en.mp3")
+
+        Log.d(TAG, "ImageSlider, currentPage: ${currentPage}")
+
+        /*
+                    soundPool.setOnLoadCompleteListener { _, _, status ->
+                        if (status == 0) {
+                            soundPool.play(
+                                soundId, 1f, // left volume
+                                1f, // right volume
+                                1, 0, 1f
+                            )
+                        }
+                    }
+        */
+
+//            lastPage = currentPage
+//        }
     }
 
     HorizontalPager(
         state = pagerState, modifier = Modifier
             .fillMaxSize()
             .background(Color.Green)
-    ) { page ->
+    ) { index ->
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
+            val card = cardList[index];
+            val pathPrefix = "animal-card/${card.nameId}/"
+            val imagePathPrefix = "${pathPrefix}image/"
+
             AssetImage(
-                filePath = images[page],
+                filePath = imagePathPrefix + card.imageList[0],
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
@@ -81,7 +98,7 @@ fun ImageSlider(
                 colorFilter = ColorFilter.colorMatrix(matrix)
             )
             AssetImage(
-                filePath = images[page],
+                filePath = imagePathPrefix + card.imageList[0],
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit
