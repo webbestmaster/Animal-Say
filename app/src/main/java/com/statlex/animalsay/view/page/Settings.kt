@@ -9,7 +9,6 @@ import androidx.compose.ui.platform.LocalContext
 import com.statlex.animalsay.util.LocalizedContent
 import com.statlex.animalsay.util.rememberAppLanguage
 import com.statlex.animalsay.util.saveLanguage
-import com.statlex.animalsay.view.component.Header
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
