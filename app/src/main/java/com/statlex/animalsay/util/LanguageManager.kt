@@ -21,7 +21,7 @@ import java.util.Locale
 
 val TAG = "LanguageManager"
 
-val supportedLanguages = listOf("ru", "en", "sv")
+private val supportedLanguages = listOf("ru", "en")
 
 private val Context.dataStore by preferencesDataStore(name = "settings_language")
 
