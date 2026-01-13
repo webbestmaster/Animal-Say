@@ -23,58 +23,9 @@ val TAG = "LanguageManager"
 
 val supportedLanguages = listOf("ru", "en", "sv")
 
-private val Context.dataStore by preferencesDataStore(name = "settings_language_name")
+private val Context.dataStore by preferencesDataStore(name = "settings_language")
 
-private val LANGUAGE_KEY = stringPreferencesKey("language_name_2")/*
-
-fun Context.updateLocale(language: String): Context {
-    val locale = Locale.forLanguageTag(language)
-    Locale.setDefault(locale)
-
-    val config = Configuration(resources.configuration)
-    config.setLocale(locale)
-
-    return createConfigurationContext(config)
-}
-*/
-
-/*
-fun setNewLocale(language: String) {
-    // обновляем DataStore
-    CoroutineScope(Dispatchers.IO).launch {
-        changeLanguage(this@MainActivity, language)
-    }
-
-    // пересоздаём Activity для применения локали
-    val ctx = updateLocale(language)
-    applyOverrideConfiguration(ctx.resources.configuration)
-
-    recreate() // пересоздаёт UI
-}
-*/
-
-/*
-private suspend fun saveLanguageInner(context: Context, language: String) {
-    context.dataStore.edit {
-        it[LANGUAGE_KEY] = language
-    }
-}
-*/
-
-private fun getDeviceLanguage(context: Context): String {
-    return context.resources.configuration.locales[0].language
-}
-
-private fun chooseSupportedLanguage(
-    deviceLanguage: String,
-): String {
-    return if (deviceLanguage in supportedLanguages) {
-        deviceLanguage
-    } else {
-        supportedLanguages.first()
-    }
-}
-
+private val LANGUAGE_KEY = stringPreferencesKey("language_name")
 
 @Composable
 fun rememberAppLanguage(context: Context): State<String> {
@@ -118,6 +69,20 @@ private fun getSavedLanguageOrNull(context: Context): String? {
     }
 }
 
+private fun getDeviceLanguage(context: Context): String {
+    return context.resources.configuration.locales[0].language
+}
+
+private fun chooseSupportedLanguage(
+    deviceLanguage: String,
+): String {
+    return if (deviceLanguage in supportedLanguages) {
+        deviceLanguage
+    } else {
+        supportedLanguages.first()
+    }
+}
+
 fun initAppLanguage(context: Context): Context {
     val savedLanguage = getSavedLanguageOrNull(context)
 
@@ -131,7 +96,6 @@ fun initAppLanguage(context: Context): Context {
         chooseSupportedLanguage(deviceLanguage)
     }
 
-//    applyLanguage(context, finalLanguage)
     return applyLanguage(context, finalLanguage)
 }
 
