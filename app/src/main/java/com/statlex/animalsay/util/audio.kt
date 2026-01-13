@@ -7,15 +7,11 @@ import android.media.SoundPool
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-private val audioAttributes = AudioAttributes.Builder()
-    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-    .build()
+private val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
+    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
 
-private val soundPool = SoundPool.Builder()
-    .setMaxStreams(1)
-    .setAudioAttributes(audioAttributes)
-    .build()
+private val soundPool =
+    SoundPool.Builder().setMaxStreams(1).setAudioAttributes(audioAttributes).build()
 
 fun playShortSound(context: Context, assetPath: String) {
     val afd = context.assets.openFd(assetPath)
@@ -24,8 +20,7 @@ fun playShortSound(context: Context, assetPath: String) {
 
     soundPool.setOnLoadCompleteListener { _, _, _ ->
         soundPool.play(
-            soundId,
-            1f, // left volume
+            soundId, 1f, // left volume
             1f, // right volume
             1,  // priority
             0,  // loop (0 = no loop)
@@ -35,9 +30,7 @@ fun playShortSound(context: Context, assetPath: String) {
 }
 
 
-
-suspend fun playSoundAndWait(context: Context, assetPath: String) {
-    /*
+suspend fun playSoundAndWait(context: Context, assetPath: String) {/*
     CoroutineScope(Dispatchers.Main).launch {
         playSoundAndWait(context, "sounds/one.wav")
         playSoundAndWait(context, "sounds/two.wav")
@@ -62,10 +55,8 @@ suspend fun playSoundAndWait(context: Context, assetPath: String) {
 
         val mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
+                AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
             )
             setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             prepare()
