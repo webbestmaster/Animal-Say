@@ -86,7 +86,7 @@ private fun chooseSupportedLanguage(
 fun initAppLanguage(context: Context): Context {
     val savedLanguage = getSavedLanguageOrNull(context)
 
-    Log.d(TAG, "initAppLanguage: $savedLanguage")
+    Log.d(TAG, "initAppLanguage, savedLanguage: $savedLanguage")
 
     val finalLanguage: String = if (savedLanguage != null && savedLanguage in supportedLanguages) {
         savedLanguage
