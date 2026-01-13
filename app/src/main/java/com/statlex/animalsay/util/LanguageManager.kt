@@ -1,22 +1,21 @@
 package com.statlex.animalsay.util
 
-import androidx.datastore.preferences.core.stringPreferencesKey
 import android.content.Context
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 val TAG = "LanguageManager"
@@ -80,6 +79,16 @@ private fun chooseSupportedLanguage(
 fun rememberAppLanguage(context: Context): State<String> {
     val languageFlow = context.getLanguageFlow()
     return languageFlow.collectAsState(initial = supportedLanguages.first())
+}
+
+@Composable
+fun LocalizedContent(language: String, content: @Composable () -> Unit) {
+    val context = LocalContext.current
+    val localizedContext = remember(language) { applyLanguage(context, language) }
+
+    CompositionLocalProvider(LocalContext provides localizedContext) {
+        content()
+    }
 }
 
 private fun Context.getLanguageFlow(): Flow<String> =
