@@ -19,13 +19,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
-val TAG = "LanguageManager"
+private val TAG = "LanguageManager"
 
 private val supportedLanguages = listOf("en", "ru")
 
 private val Context.dataStore by preferencesDataStore(name = "settings_language")
 
-private val LANGUAGE_KEY = stringPreferencesKey("language_name")
+private val LANGUAGE_KEY = stringPreferencesKey(name = "language_name")
 
 @Composable
 fun rememberAppLanguage(context: Context): State<String> {
