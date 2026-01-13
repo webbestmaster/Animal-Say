@@ -19,12 +19,15 @@ fun Settings() {
     val TAG = "Settings"
 
     val context = LocalContext.current
+    val language by rememberAppLanguage(context)
 
     LocalizedContent {
         Column {
             Text("Settings")
 
             Header()
+
+            Text("Current language is: $language")
 
             Button(onClick = {
                 CoroutineScope(Dispatchers.IO).launch {

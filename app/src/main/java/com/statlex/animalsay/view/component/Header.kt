@@ -47,6 +47,7 @@ fun Header() {
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back"
             )
         }
+
         Text(
             stringResource(R.string.app_name), fontSize = 24.sp
         )
