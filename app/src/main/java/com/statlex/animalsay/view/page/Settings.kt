@@ -20,27 +20,25 @@ fun Settings() {
     val context = LocalContext.current
     val language by rememberAppLanguage(context)
 
-    LocalizedContent {
-        Column {
-            Text("Settings")
+    Column {
+        Text("Settings")
 
-            Text("Current language is: $language")
+        Text("Current language is: $language")
 
-            Button(onClick = {
-                CoroutineScope(Dispatchers.IO).launch {
-                    context.saveLanguage("ru")
-                }
-            }) {
-                Text("ru")
+        Button(onClick = {
+            CoroutineScope(Dispatchers.IO).launch {
+                context.saveLanguage("ru")
             }
+        }) {
+            Text("ru")
+        }
 
-            Button(onClick = {
-                CoroutineScope(Dispatchers.IO).launch {
-                    context.saveLanguage("en")
-                }
-            }) {
-                Text("en")
+        Button(onClick = {
+            CoroutineScope(Dispatchers.IO).launch {
+                context.saveLanguage("en")
             }
+        }) {
+            Text("en")
         }
     }
 }
