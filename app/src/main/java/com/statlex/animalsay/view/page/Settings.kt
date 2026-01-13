@@ -25,8 +25,6 @@ fun Settings() {
         Column {
             Text("Settings")
 
-            Header()
-
             Text("Current language is: $language")
 
             Button(onClick = {
