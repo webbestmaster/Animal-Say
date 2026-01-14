@@ -4,8 +4,23 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.SoundPool
+import android.util.Log
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.util.EnumMap
 import kotlin.coroutines.resume
+
+/*
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    val context = this
+
+    // fix volume buttons
+    volumeControlStream = AudioManager.STREAM_MUSIC
+
+    initAppLanguage(context)
+*/
+
+private val TAG = "Audio"
 
 private val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
@@ -29,6 +44,77 @@ fun playShortSound(context: Context, assetPath: String) {
     }
 }
 
+fun makeMediaPlayer(): MediaPlayer {
+    return MediaPlayer().apply {
+        setAudioAttributes(
+            AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
+        )
+//        setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+//        prepare()
+//        start()
+    }
+}
+
+enum class SoundType {
+    CAT, DOG, COW;
+}
+
+val players = EnumMap<SoundType, MediaPlayer>(SoundType::class.java).apply {
+    this[SoundType.CAT] = makeMediaPlayer()
+    this[SoundType.DOG] = makeMediaPlayer()
+    this[SoundType.COW] = makeMediaPlayer()
+}
+
+fun playSoundByPath(context: Context, assetPath: String, pathBy: SoundType): MediaPlayer {
+//    suspendCancellableCoroutine<Unit> { cont ->
+
+    val mediaPlayer = players.get(pathBy)
+
+    if (mediaPlayer == null) {
+        error("pathBy: $pathBy is not exists");
+    }
+
+    try {
+        mediaPlayer.reset()
+
+        val afd = context.assets.openFd(assetPath)
+
+        Log.d(TAG, "playSoundAndWaitByPath: 3")
+
+        mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+
+        afd.close()
+
+        Log.d(TAG, "playSoundAndWaitByPath: 4")
+        mediaPlayer.prepare()
+        Log.d(TAG, "playSoundAndWaitByPath: 5")
+        mediaPlayer.start()
+        Log.d(TAG, "playSoundAndWaitByPath: 6")
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return mediaPlayer
+
+//        mediaPlayer.setOnCompletionListener {
+//            mediaPlayer.release()
+//            cont.resume(Unit)
+//        }
+
+//        cont.invokeOnCancellation {
+//            mediaPlayer.release()
+//        }
+//    }
+}
+
+fun getIsMediaPlayerPlaying(mediaPlayer: MediaPlayer): Boolean {
+    return try {
+        mediaPlayer.isPlaying
+    } catch (_: IllegalStateException) {
+        false
+    }
+}
 
 suspend fun playSoundAndWait(context: Context, assetPath: String) {/*
     CoroutineScope(Dispatchers.Main).launch {
@@ -62,7 +148,6 @@ suspend fun playSoundAndWait(context: Context, assetPath: String) {/*
             prepare()
             start()
         }
-
 
         mediaPlayer.setOnCompletionListener {
             mediaPlayer.release()

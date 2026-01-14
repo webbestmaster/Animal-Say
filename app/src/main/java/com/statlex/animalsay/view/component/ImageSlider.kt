@@ -23,8 +23,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.statlex.animalsay.card.AnimalCard
 import com.statlex.animalsay.card.animalCardDataList
+import com.statlex.animalsay.util.SoundType
+import com.statlex.animalsay.util.getIsMediaPlayerPlaying
 import com.statlex.animalsay.util.playShortSound
-import com.statlex.animalsay.util.playSoundAndWait
+import com.statlex.animalsay.util.playSoundByPath
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,22 +45,46 @@ fun ImageSlider(
 
     val pagerState = rememberPagerState(pageCount = { cardList.size })
     val currentPage = pagerState.currentPage;
-
+    val isScrollInProgress = pagerState.isScrollInProgress
     val matrix = ColorMatrix().apply {
         setToSaturation(0.5f)
     }
 
-    LaunchedEffect(currentPage) {
+    LaunchedEffect(currentPage, isScrollInProgress) {
+        if (isScrollInProgress) {
+            return@LaunchedEffect
+        }
+
         val card = cardList[currentPage]
         val pathPrefix = "animal-card/${card.nameId}/"
 
+        /*
+                mp.playFromAssets(
+                    "${pathPrefix}name/${card.nameId}-en.mp3",
+                    "${pathPrefix}voice/${card.nameId}-1.mp3"
+                )
+        */
+
+
         scope.launch {
-            playSoundAndWait(
-                context = context, assetPath = "${pathPrefix}name/${card.nameId}-en.mp3"
+            val mp = playSoundByPath(
+                context = context,
+                assetPath = "${pathPrefix}name/${card.nameId}-en.mp3",
+                SoundType.COW
             )
-            playSoundAndWait(
-                context = context, assetPath = "${pathPrefix}voice/${card.nameId}-1.mp3"
+
+            while (isActive && getIsMediaPlayerPlaying(mp)) {
+                delay(100)
+            }
+
+            playSoundByPath(
+                context = context,
+                assetPath = "${pathPrefix}voice/${card.nameId}-1.mp3",
+                SoundType.COW
             )
+//            mp.playFromAssets("${pathPrefix}name/${card.nameId}-en.mp3")
+//            mp.playFromAssets("${pathPrefix}voice/${card.nameId}-1.mp3")
+
         }
 
         Log.d(TAG, "ImageSlider, currentPage: ${currentPage}")
@@ -89,10 +117,17 @@ fun ImageSlider(
                 modifier = Modifier
                     .fillMaxSize()
                     .clickable(enabled = true, onClick = {
-                        playShortSound(
+                        playSoundByPath(
                             context = context,
-                            assetPath = "${pathPrefix}voice/${card.nameId}-1.mp3"
+                            assetPath = "${pathPrefix}voice/${card.nameId}-1.mp3",
+                            SoundType.COW
                         )
+
+/*
+                        playShortSound(
+                            context = context, assetPath = "${pathPrefix}voice/${card.nameId}-1.mp3"
+                        )
+*/
                     }),
                 contentScale = ContentScale.Fit
             )
