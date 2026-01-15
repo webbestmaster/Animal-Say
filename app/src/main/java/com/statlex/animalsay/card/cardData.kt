@@ -12,7 +12,7 @@ val animalCardDataList: List<AnimalCard> = listOf(
     AnimalCard(
         nameId = "fox",
         name = R.string.app_name,
-        imageList = listOf("fox-1.webp", "fox-2.jpg", "fox-3.avif"),
+        imageList = listOf("fox-1.webp", "fox-2.jpg"),
         voiceList = listOf("fox-1.mp3", "fox-2.mp3", "fox-3.mp3")
     ),
     AnimalCard(

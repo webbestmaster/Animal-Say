@@ -1,6 +1,12 @@
 package com.statlex.animalsay.view.component
 
 import android.util.Log
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -13,7 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -72,44 +80,68 @@ fun ImageSlider(
             modifier = Modifier.fillMaxSize(),
         ) {
             val card = cardList[index];
-            val pathPrefix = "animal-card/${card.nameId}/"
+            val imageList = card.imageList
+            val nameId = card.nameId
+            val pathPrefix = "animal-card/${nameId}/"
             val imagePathPrefix = "${pathPrefix}image/"
+            var imageIndex by remember { mutableStateOf(0) }
 
-            AssetImage(
-                filePath = imagePathPrefix + card.imageList[0],
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .blur(8.dp),
-                contentScale = ContentScale.Crop,
-                colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply {
-                    setToSaturation(0.5f)
-                })
-            )
-            AssetImage(
-                filePath = imagePathPrefix + card.imageList[0],
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable(
-                        enabled = true,
-                        onClick = {
-                            playSoundByTrack(
-                                context = context,
-                                assetPath = "${pathPrefix}voice/${card.nameId}-1.mp3",
-                                SoundTrackEnum.main
-                            )
-                        },
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ),
-                contentScale = ContentScale.Fit
-            )
+            AnimatedContent(
+                targetState = imageIndex, transitionSpec = {
+                    fadeIn() togetherWith fadeOut()
+                }, label = "image animation"
+            ) { index ->
+                AssetImage(
+                    filePath = imagePathPrefix + imageList[index],
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .blur(8.dp),
+                    contentScale = ContentScale.Crop,
+                    colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply {
+                        setToSaturation(0.5f)
+                    })
+                )
+            }
+
+            AnimatedContent(
+                targetState = imageIndex, transitionSpec = {
+                    fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut()
+                }, label = "image animation"
+            ) { index ->
+                AssetImage(
+                    filePath = imagePathPrefix + imageList[index],
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable(
+                            enabled = true,
+                            onClick = {
+                                imageIndex = (imageIndex + 1) % imageList.size
+                                playSoundByTrack(
+                                    context = context,
+                                    assetPath = "${pathPrefix}voice/${nameId}-1.mp3",
+                                    SoundTrackEnum.main
+                                )
+                            },
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ),
+                    contentScale = ContentScale.Fit
+                )
+            }
+
             Box(
                 modifier = Modifier
                     .size(60.dp)
                     .background(Color.Blue)
                     .align(Alignment.BottomEnd)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        // пусто — просто блокируем клик
+                    }
             ) {
                 Text("some text")
             }
