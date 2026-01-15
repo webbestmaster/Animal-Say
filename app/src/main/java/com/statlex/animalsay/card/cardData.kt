@@ -18,7 +18,7 @@ val animalCardDataList: List<AnimalCard> = listOf(
     AnimalCard(
         nameId = "wolf",
         name = R.string.app_name,
-        imageList = listOf("wolf-1.jpg", "wolf-2.jpg", "wolf-3.webp"),
+        imageList = listOf("wolf-3.webp", "wolf-1.jpg", "wolf-2.jpg"),
         voiceList = listOf("wolf-1.mp3", "wolf-2.mp3", "wolf-3.mp3")
     ),
 )
