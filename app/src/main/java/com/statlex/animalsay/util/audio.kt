@@ -4,10 +4,7 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.SoundPool
-import android.util.Log
-import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.EnumMap
-import kotlin.coroutines.resume
 
 /*
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +19,10 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 private val TAG = "Audio"
 
-private val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
-    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
-
-private val soundPool =
-    SoundPool.Builder().setMaxStreams(1).setAudioAttributes(audioAttributes).build()
+private val soundPool = SoundPool.Builder().setMaxStreams(1).setAudioAttributes(
+    AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
+).build()
 
 fun playShortSound(context: Context, assetPath: String) {
     val afd = context.assets.openFd(assetPath)
@@ -56,56 +52,43 @@ fun makeMediaPlayer(): MediaPlayer {
     }
 }
 
-enum class SoundType {
-    CAT, DOG, COW;
+enum class SoundTrackEnum {
+    background, main, sfx;
 }
 
-val players = EnumMap<SoundType, MediaPlayer>(SoundType::class.java).apply {
-    this[SoundType.CAT] = makeMediaPlayer()
-    this[SoundType.DOG] = makeMediaPlayer()
-    this[SoundType.COW] = makeMediaPlayer()
+val playerMap = EnumMap<SoundTrackEnum, MediaPlayer>(SoundTrackEnum::class.java).apply {
+    this[SoundTrackEnum.background] = makeMediaPlayer()
+    this[SoundTrackEnum.main] = makeMediaPlayer()
+    this[SoundTrackEnum.sfx] = makeMediaPlayer()
 }
 
-fun playSoundByPath(context: Context, assetPath: String, pathBy: SoundType): MediaPlayer {
-//    suspendCancellableCoroutine<Unit> { cont ->
-
-    val mediaPlayer = players.get(pathBy)
+fun playSoundByTrack(context: Context, assetPath: String, trackEnum: SoundTrackEnum): MediaPlayer {
+    val mediaPlayer = playerMap.get(trackEnum)
 
     if (mediaPlayer == null) {
-        error("pathBy: $pathBy is not exists");
+        error("trackEnum: $trackEnum is not exists");
     }
 
     try {
         mediaPlayer.reset()
 
-        val afd = context.assets.openFd(assetPath)
+        val assetFileDescriptor = context.assets.openFd(assetPath)
 
-        Log.d(TAG, "playSoundAndWaitByPath: 3")
+        mediaPlayer.setDataSource(
+            assetFileDescriptor.fileDescriptor,
+            assetFileDescriptor.startOffset,
+            assetFileDescriptor.length
+        )
 
-        mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+        assetFileDescriptor.close()
 
-        afd.close()
-
-        Log.d(TAG, "playSoundAndWaitByPath: 4")
         mediaPlayer.prepare()
-        Log.d(TAG, "playSoundAndWaitByPath: 5")
         mediaPlayer.start()
-        Log.d(TAG, "playSoundAndWaitByPath: 6")
-    } catch (e: Exception) {
-        e.printStackTrace()
+    } catch (exception: Exception) {
+        exception.printStackTrace()
     }
 
     return mediaPlayer
-
-//        mediaPlayer.setOnCompletionListener {
-//            mediaPlayer.release()
-//            cont.resume(Unit)
-//        }
-
-//        cont.invokeOnCancellation {
-//            mediaPlayer.release()
-//        }
-//    }
 }
 
 fun getIsMediaPlayerPlaying(mediaPlayer: MediaPlayer): Boolean {
@@ -116,46 +99,28 @@ fun getIsMediaPlayerPlaying(mediaPlayer: MediaPlayer): Boolean {
     }
 }
 
-suspend fun playSoundAndWait(context: Context, assetPath: String) {/*
-    CoroutineScope(Dispatchers.Main).launch {
-        playSoundAndWait(context, "sounds/one.wav")
-        playSoundAndWait(context, "sounds/two.wav")
-        playSoundAndWait(context, "sounds/three.wav")
+fun playSoundListByTrack(
+    context: Context,
+    assetPathList: MutableList<String>,
+    trackEnum: SoundTrackEnum,
+): MediaPlayer {
+    val mediaPlayer = playerMap.get(trackEnum)
+
+    if (mediaPlayer == null) {
+        error("trackEnum: $trackEnum is not exists");
     }
 
+    val assetPath = assetPathList.removeFirstOrNull()
 
-        val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
-    Button(onClick = {
-        scope.launch {
-            playSoundAndWait(context, "sounds/click.wav")
-        }
-    }) {
-        Text("Play")
+    if (assetPath == null) {
+        return mediaPlayer
     }
-    */
 
-    suspendCancellableCoroutine<Unit> { cont ->
-        val afd = context.assets.openFd(assetPath)
+    playSoundByTrack(context, assetPath, trackEnum);
 
-        val mediaPlayer = MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
-            )
-            setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
-            prepare()
-            start()
-        }
-
-        mediaPlayer.setOnCompletionListener {
-            mediaPlayer.release()
-            cont.resume(Unit)
-        }
-
-        cont.invokeOnCancellation {
-            mediaPlayer.release()
-        }
+    mediaPlayer.setOnCompletionListener {
+        playSoundListByTrack(context, assetPathList, trackEnum)
     }
+
+    return mediaPlayer
 }
