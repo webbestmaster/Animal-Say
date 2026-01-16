@@ -11,7 +11,7 @@ sealed class Route(val route: String) {
     object ContinentSouthAmerica : Route("Continent South America")
     object ContinentAntarctica : Route("Continent Antarctica")
     object ContinentEurope : Route("Continent Europe")
-    object ContinentAustraliaAndOceania : Route("Continent Australia and Oceania")
+    object ContinentAustralia : Route("Continent Australia")
 
 
     /*

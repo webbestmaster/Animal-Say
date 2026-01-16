@@ -79,7 +79,7 @@ fun ImageSlider(
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
-            val card = cardList[index];
+            val card = cardList[index]
             val imageList = card.imageList
             val nameId = card.nameId
             val pathPrefix = "animal-card/${nameId}/"
