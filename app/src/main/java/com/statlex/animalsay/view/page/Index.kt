@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.statlex.animalsay.R
+import com.statlex.animalsay.data.mapDataList
 import com.statlex.animalsay.view.LocalNavController
 import com.statlex.animalsay.view.Route
 
@@ -39,41 +39,50 @@ fun Index() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Button(onClick = {
-            navHostController.navigate(Route.ContinentAsia.route)
-        }, modifier = buttonStyle) {
-            Text(text = stringResource(R.string.europe), modifier = buttonTextStyle)
+
+        mapDataList.mapIndexed { index, mapData ->
+            Button(onClick = {
+                navHostController.navigate(
+                    Route.Continent.route.replace("{index}", index.toString())
+                )
+            }, modifier = buttonStyle) {
+                Text(text = stringResource(mapData.nameSrc), modifier = buttonTextStyle)
+            }
         }
-        Button(onClick = {
-            navHostController.navigate(Route.ContinentAsia.route)
-        }, modifier = buttonStyle) {
-            Text(text = stringResource(R.string.asia), modifier = buttonTextStyle)
-        }
-        Button(onClick = {
-            navHostController.navigate(Route.ContinentAsia.route)
-        }, modifier = buttonStyle) {
-            Text(text = stringResource(R.string.africa), modifier = buttonTextStyle)
-        }
-        Button(onClick = {
-            navHostController.navigate(Route.ContinentAsia.route)
-        }, modifier = buttonStyle) {
-            Text(text = stringResource(R.string.australia), modifier = buttonTextStyle)
-        }
-        Button(onClick = {
-            navHostController.navigate(Route.ContinentAsia.route)
-        }, modifier = buttonStyle) {
-            Text(text = stringResource(R.string.north_america), modifier = buttonTextStyle)
-        }
-        Button(onClick = {
-            navHostController.navigate(Route.ContinentAsia.route)
-        }, modifier = buttonStyle) {
-            Text(text = stringResource(R.string.south_america), modifier = buttonTextStyle)
-        }
-        Button(onClick = {
-            navHostController.navigate(Route.ContinentAsia.route)
-        }, modifier = buttonStyle) {
-            Text(text = stringResource(R.string.antarctica), modifier = buttonTextStyle)
-        }
+
+
+        /*
+                Button(onClick = {
+                    navHostController.navigate(Route.ContinentAsia.route)
+                }, modifier = buttonStyle) {
+                    Text(text = stringResource(R.string.asia), modifier = buttonTextStyle)
+                }
+                Button(onClick = {
+                    navHostController.navigate(Route.ContinentAsia.route)
+                }, modifier = buttonStyle) {
+                    Text(text = stringResource(R.string.africa), modifier = buttonTextStyle)
+                }
+                Button(onClick = {
+                    navHostController.navigate(Route.ContinentAsia.route)
+                }, modifier = buttonStyle) {
+                    Text(text = stringResource(R.string.australia), modifier = buttonTextStyle)
+                }
+                Button(onClick = {
+                    navHostController.navigate(Route.ContinentAsia.route)
+                }, modifier = buttonStyle) {
+                    Text(text = stringResource(R.string.north_america), modifier = buttonTextStyle)
+                }
+                Button(onClick = {
+                    navHostController.navigate(Route.ContinentAsia.route)
+                }, modifier = buttonStyle) {
+                    Text(text = stringResource(R.string.south_america), modifier = buttonTextStyle)
+                }
+                Button(onClick = {
+                    navHostController.navigate(Route.ContinentAsia.route)
+                }, modifier = buttonStyle) {
+                    Text(text = stringResource(R.string.antarctica), modifier = buttonTextStyle)
+                }
+        */
 //        Text("some text")
     }
 }
