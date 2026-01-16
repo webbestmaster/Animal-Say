@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Mga hayop sa mundo</string>
-    <string name="test_key">salitang pangsubok</string>
+    <string name="settings">Mga Setting</string>
+    <string name="language">Wika</string>
+    <string name="north_america">Hilagang Amerika</string>
+    <string name="south_america">Timog Amerika</string>
+    <string name="europe">Europa</string>
+    <string name="asia">Asya</string>
+    <string name="africa">Aprika</string>
+    <string name="australia">Australya</string>
+    <string name="antarctica">Antarctica</string>
 </resources>

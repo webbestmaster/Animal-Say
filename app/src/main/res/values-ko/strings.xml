@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">세계의 동물들</string>
+    <string name="settings">설정</string>
+    <string name="language">언어</string>
+    <string name="north_america">북아메리카</string>
+    <string name="south_america">남아메리카</string>
+    <string name="europe">유럽</string>
+    <string name="asia">아시아</string>
+    <string name="africa">아프리카</string>
+    <string name="australia">호주</string>
+    <string name="antarctica">남극 대륙</string>
+</resources>

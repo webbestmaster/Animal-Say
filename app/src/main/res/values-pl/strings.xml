@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Zwierzęta świata</string>
-    <string name="test_key">słowo testowe</string>
+    <string name="settings">Ustawienia</string>
+    <string name="language">Język</string>
+    <string name="north_america">Ameryka Północna</string>
+    <string name="south_america">Ameryka Południowa</string>
+    <string name="europe">Europa</string>
+    <string name="asia">Azja</string>
+    <string name="africa">Afryka</string>
+    <string name="australia">Australia</string>
+    <string name="antarctica">Antarktyda</string>
 </resources>

@@ -1,0 +1,13 @@
+en	English
+ru	Русский
+sv	Svenska
+be	Беларуская
+pl	Polski
+de	Deutsch
+sr	Српски
+uk	Українська
+ja	日本語
+zh	中国人
+in	Indonesia
+tl	Pilipino
+ko	한국인

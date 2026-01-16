@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Тварини світу</string>
-    <string name="test_key">тестове слово</string>
+    <string name="settings">Налаштування</string>
+    <string name="language">Мова</string>
+    <string name="north_america">Північна Америка</string>
+    <string name="south_america">Південна Америка</string>
+    <string name="europe">Європа</string>
+    <string name="asia">Азія</string>
+    <string name="africa">Африка</string>
+    <string name="australia">Австралія</string>
+    <string name="antarctica">Антарктида</string>
 </resources>

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">世界动物</string>
-    <string name="test_key">测试词</string>
+    <string name="settings">设置</string>
+    <string name="language">语言</string>
+    <string name="north_america">北美</string>
+    <string name="south_america">南美洲</string>
+    <string name="europe">欧洲</string>
+    <string name="asia">亚洲</string>
+    <string name="africa">非洲</string>
+    <string name="australia">澳大利亚</string>
+    <string name="antarctica">南极洲</string>
 </resources>

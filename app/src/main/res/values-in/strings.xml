@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Hewan-hewan di dunia</string>
-    <string name="test_key">kata uji</string>
+    <string name="settings">Pengaturan</string>
+    <string name="language">Bahasa</string>
+    <string name="north_america">Amerika Utara</string>
+    <string name="south_america">Amerika Selatan</string>
+    <string name="europe">Eropa</string>
+    <string name="asia">Asia</string>
+    <string name="africa">Afrika</string>
+    <string name="australia">Australia</string>
+    <string name="antarctica">Antartika</string>
 </resources>
