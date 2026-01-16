@@ -39,7 +39,9 @@ fun Index() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Button(onClick = {}, modifier = buttonStyle) {
+        Button(onClick = {
+            navHostController.navigate(Route.ContinentAsia.route)
+        }, modifier = buttonStyle) {
             Text(text = stringResource(R.string.africa), modifier = buttonTextStyle)
         }
         Button(onClick = {
@@ -47,8 +49,30 @@ fun Index() {
         }, modifier = buttonStyle) {
             Text(text = stringResource(R.string.asia), modifier = buttonTextStyle)
         }
-        Button(onClick = {}, modifier = buttonStyle) {
+        Button(onClick = {
+            navHostController.navigate(Route.ContinentAsia.route)
+        }, modifier = buttonStyle) {
+            Text(text = stringResource(R.string.australia), modifier = buttonTextStyle)
+        }
+        Button(onClick = {
+            navHostController.navigate(Route.ContinentAsia.route)
+        }, modifier = buttonStyle) {
+            Text(text = stringResource(R.string.antarctica), modifier = buttonTextStyle)
+        }
+        Button(onClick = {
+            navHostController.navigate(Route.ContinentAsia.route)
+        }, modifier = buttonStyle) {
             Text(text = stringResource(R.string.europe), modifier = buttonTextStyle)
+        }
+        Button(onClick = {
+            navHostController.navigate(Route.ContinentAsia.route)
+        }, modifier = buttonStyle) {
+            Text(text = stringResource(R.string.north_america), modifier = buttonTextStyle)
+        }
+        Button(onClick = {
+            navHostController.navigate(Route.ContinentAsia.route)
+        }, modifier = buttonStyle) {
+            Text(text = stringResource(R.string.south_america), modifier = buttonTextStyle)
         }
 
 //        Text("some text")
