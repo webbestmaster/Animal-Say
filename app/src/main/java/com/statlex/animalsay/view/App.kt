@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.statlex.animalsay.R
 import com.statlex.animalsay.ui.theme.AnimalSayTheme
 import com.statlex.animalsay.util.LocalizedContent
 import com.statlex.animalsay.view.component.Header
@@ -45,21 +46,21 @@ fun App() {
                         ) {
                             composable(Route.Index.route) {
                                 Column(modifier = Modifier.fillMaxSize()) {
-                                    Header()
+                                    Header(text = R.string.app_name)
                                     Index()
                                 }
                             }
 
                             composable(Route.Settings.route) {
                                 Column(modifier = Modifier.fillMaxSize()) {
-                                    Header()
+                                    Header(text = R.string.settings)
                                     Settings()
                                 }
                             }
 
                             composable(Route.ContinentAsia.route) {
                                 Column(modifier = Modifier.fillMaxSize()) {
-                                    Header()
+                                    Header(text = R.string.asia)
                                     ContinentAsia()
                                 }
                             }

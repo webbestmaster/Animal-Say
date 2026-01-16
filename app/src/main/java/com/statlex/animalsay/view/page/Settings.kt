@@ -6,6 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.statlex.animalsay.R
 import com.statlex.animalsay.util.rememberAppLanguage
 import com.statlex.animalsay.util.saveLanguage
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +22,7 @@ fun Settings() {
     val language by rememberAppLanguage(context)
 
     Column {
-        Text("Settings")
+        Text(stringResource(R.string.settings))
 
         Text("Current language is: $language")
 

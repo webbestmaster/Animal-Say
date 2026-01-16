@@ -25,7 +25,7 @@ import com.statlex.animalsay.view.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Header() {
+fun Header(text: Int) {
     val TAG = "Header"
 
     val navHostController = LocalNavController.current
@@ -49,7 +49,7 @@ fun Header() {
         }
 
         Text(
-            stringResource(R.string.app_name), fontSize = 24.sp
+            stringResource(text), fontSize = 24.sp
         )
 
         IconButton(

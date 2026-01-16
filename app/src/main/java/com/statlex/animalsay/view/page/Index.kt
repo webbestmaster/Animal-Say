@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.statlex.animalsay.R
 import com.statlex.animalsay.view.LocalNavController
 import com.statlex.animalsay.view.Route
 
@@ -38,15 +40,15 @@ fun Index() {
         verticalArrangement = Arrangement.Center,
     ) {
         Button(onClick = {}, modifier = buttonStyle) {
-            Text("Africa", modifier = buttonTextStyle)
+            Text(text = stringResource(R.string.africa), modifier = buttonTextStyle)
         }
         Button(onClick = {
             navHostController.navigate(Route.ContinentAsia.route)
         }, modifier = buttonStyle) {
-            Text("Asia", modifier = buttonTextStyle)
+            Text(text = stringResource(R.string.asia), modifier = buttonTextStyle)
         }
         Button(onClick = {}, modifier = buttonStyle) {
-            Text("Europe", modifier = buttonTextStyle)
+            Text(text = stringResource(R.string.europe), modifier = buttonTextStyle)
         }
 
 //        Text("some text")
