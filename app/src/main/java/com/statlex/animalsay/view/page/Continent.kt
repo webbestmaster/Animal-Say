@@ -18,9 +18,9 @@ fun Continent(index: Int) {
     val (_, nameSrc) = mapData
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Text("Name: ${stringResource(nameSrc)}")
-
         Header(text = nameSrc)
+
+        Text("Name: ${stringResource(nameSrc)}")
 
         ImageSlider(
             cardList = listOf(
