@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -35,7 +36,7 @@ fun App() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFCC0000))
+                    .background(MaterialTheme.colorScheme.background)
                     .padding(innerPadding)
             ) {
                 val navController = rememberNavController()
@@ -61,10 +62,11 @@ fun App() {
                             }
 
                             composable(
-                                route = Route.Continent.route,
-                                arguments = listOf(
-                                    navArgument("index") { type = NavType.IntType }
-                                )) { backStackEntry ->
+                                route = Route.Continent.route, arguments = listOf(
+                                    navArgument("index") {
+                                        type = NavType.IntType
+                                    })
+                            ) { backStackEntry ->
                                 val index: Int = backStackEntry.arguments?.getInt("index") ?: 0
 
                                 Column(modifier = Modifier.fillMaxSize()) {
