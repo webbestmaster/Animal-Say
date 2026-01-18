@@ -74,7 +74,7 @@ fun Index() {
                 ) {
                     Image(
                         modifier = Modifier
-                            .padding(bottom = 4.dp)
+                            .padding(vertical = 8.dp)
                             .weight(1f)
                             .fillMaxSize(),
                         painter = painterResource(id = imageSrc),
